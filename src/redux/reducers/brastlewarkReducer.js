@@ -3,7 +3,9 @@ const { FETCH_GNOMES, FETCH_GNOMES_SUCCESS, FETCH_GNOMES_ERROR } = require("../a
 const initialState = {
     isLoading: false,
     gnomes: [],
-    error: ''
+    error: '',
+    currentPage: 0,
+    itemsPerPage: 30
 };
 
 const brastlewark_reducer = (state = initialState, action) => {
@@ -15,12 +17,14 @@ const brastlewark_reducer = (state = initialState, action) => {
             }
         case FETCH_GNOMES_SUCCESS:
             return {
+                ...state,
                 isLoading: false,
                 gnomes: action.payload,
                 error: ''
             }
         case FETCH_GNOMES_ERROR:
             return {
+                ...state,
                 isLoading: false,
                 gnomes: [],
                 error: action.payload
