@@ -1,6 +1,6 @@
 import { GO_TO_PAGE, INIT_PAGINATION } from '../actions/paginationActions';
 
-const initialItemsPerPage = 5;
+const initialItemsPerPage = 2;
 const initialPage = 0;
 
 const initialState = {
