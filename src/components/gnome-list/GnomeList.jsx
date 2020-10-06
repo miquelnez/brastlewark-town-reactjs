@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import { useSelector } from 'react-redux';
 import ImageComponent from 'material-ui-image';
 import { Typography } from '@material-ui/core';
-import { Pagination } from '@material-ui/lab';
+import PaginationSection from '../pagination-section/PaginationSection';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,16 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 const GnomeList = () => {
     const classes = useStyles();
-    const search = useSelector((state) => state.brastlewark_reducer);
-    const [page, setPage] = React.useState(1);
-
-    const handleChange = (event, value) => {
-        setPage(value);
-    };
+    const pagination = useSelector((state) => state.pagination_reducer);
+    const brastlewark = useSelector((state) => state.brastlewark_reducer);
 
     return(
         <div className={classes.root}>
-            { paginateSearch(search).map((gnome) => (
+            { pagination.itemsToShow.map((gnome) => (
                 <Paper elevation={3} key={gnome.thumbnail+'_'+gnome.name}>
                     <ImageComponent 
                         src={gnome.thumbnail ? gnome.thumbnail : ''}
@@ -44,29 +40,15 @@ const GnomeList = () => {
                     <Typography className={classes.paragraph}>{gnome.name}</Typography>
                 </Paper>
             ))}
-            { search.isLoading && <div>Searching..</div> }
-            { search.error !== '' && <div>{search.error}</div>}
-            { search.gnomes.length > 0 &&
-                <div>
-                    <Typography>{page} of {getTotalPageCount(search)}</Typography>
-                    <Pagination count={search.itemsPerPage} page={page} onChange={handleChange} />
-                </div> 
+            { brastlewark.isLoading && <div>Loading..</div> }
+            { brastlewark.error !== '' && <div>{brastlewark.error}</div>}
+            { brastlewark.gnomes.length > 0 &&
+                <PaginationSection />
             }
         </div>
     );
 };
 
-//TODO: This should be an action?
-function paginateSearch(search) {
-    return search.gnomes.slice(
-        search.currentPage * search.itemsPerPage,
-        search.itemsPerPage
-    );
-}
-
-function getTotalPageCount(search) {
-    return Math.round(search.gnomes.length / search.itemsPerPage);
-}
 
 export default GnomeList;
 /**

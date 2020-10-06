@@ -1,11 +1,9 @@
-const { FETCH_GNOMES, FETCH_GNOMES_SUCCESS, FETCH_GNOMES_ERROR } = require("../actions");
+import { FETCH_GNOMES, FETCH_GNOMES_ERROR, FETCH_GNOMES_SUCCESS } from "../actions/brastlewarkActions";
 
 const initialState = {
     isLoading: false,
     gnomes: [],
-    error: '',
-    currentPage: 0,
-    itemsPerPage: 30
+    error: ''
 };
 
 const brastlewark_reducer = (state = initialState, action) => {
